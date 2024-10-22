@@ -1,0 +1,18 @@
+#Machine (lunix/Windows)
+#lunix 
+
+#install Nodejs
+FROM node:19
+
+# new folder 
+#copy project 
+
+docker build -t mistyNode:v3 . //to build a docker image
+
+docker run -p 3000:3000 mistyNode:v3 //to run the docker image
+
+docker-compose ps  
+docker-compose up -d //to run docker-compose file
+
+docker-compose down //to stop docker-compose file
+

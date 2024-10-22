@@ -8,28 +8,28 @@ export const signUp = async (req,res) => {
         console.log(req.body) ; 
         const { username , email , password , confirmPassword , gender , age , genderPreference } = req.body ;
         if(!username || !email || !password || !age || !gender || !genderPreference) {
-            return res.status(400).json({ message : "Please fill all the fields"}) ;
+            return res.json({ message : "Please fill all the fields"}) ;
         }
         if(age < 18) {
-            return res.status(400).json({ message : "You must be at least 18 years old"}) ;
+            return res.json({ message : "You must be at least 18 years old"}) ;
         }
         if(password.length < 6) {
-            return res.status(400).json({ message : "Password must be at least 6 characters"}) ;
+            return res.json({ message : "Password must be at least 6 characters"}) ;
         }
         if(password!== confirmPassword) {
-            return res.status(400).json({ message : "Passwords do not match"}) ;
+            return res.json({ message : "Passwords do not match"}) ;
         }
         let existingUser = await User.findOne({ username : username }) ;
         if(existingUser) {
-            return res.status(400).json({ message : "Username taken"}) ;
+            return res.json({ message : "Username taken"}) ;
         }
         existingUser = await User.findOne({ email : email }) ;
         if(existingUser) {
-            return res.status(400).json({ message : "Email taken"}) ;
+            return res.json({ message : "Email taken"}) ;
         }
         const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         if(!emailRegex.test(email)) {
-            return res.status(400).json({ message : "Please Enter a valid Email"}) ;
+            return res.json({ message : "Please Enter a valid Email"}) ;
         }
         
         const hashedPassword = await bcrypt.hash(password,10) ;
@@ -40,7 +40,7 @@ export const signUp = async (req,res) => {
         }
         await newUser.save() ;
         
-        res.status(200).json({ message : "User created successfully"}) ;
+        res.status(201).json({ message : "User created successfully",user : newUser}) ;
         
     }catch(err) {
         console.log(err.message)  ;
@@ -67,7 +67,7 @@ export const signIn = async (req,res) => {
 
         const token = setToken(user._id) ;
         setCookie(res,token) ; 
-        res.status(200).json({ message : "User logged in successfully"}) ;
+        res.status(200).json({ message : "User logged in successfully" , user: user }) ;
 
     }catch(err) {
         console.log(err.message)  ;

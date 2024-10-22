@@ -1,3 +1,5 @@
+import User from "../Models/User.model.js";
+import { v2 as cloudinary } from 'cloudinary' ; 
 export const updateProfile = async (req,res) => {
     try {
         const user = req.user ; 
@@ -6,22 +8,24 @@ export const updateProfile = async (req,res) => {
         }
 
         const { image , ...otherdata } = req.body ;
-
+        let result ;
         if(image) {
             if(user.image) {
                 await cloudinary.uploader.destroy(user.image) ;
             }
-            const result = await cloudinary.uploader.upload(image , {
+            result = await cloudinary.uploader.upload(image , {
                 folder : "tinder-clone"
             }) ;
-            user.image = result.secure_url ;
+            
         }
 
         await User.findByIdAndUpdate(user._id , {
             $set : {
-                ...otherdata
+                ...otherdata , 
+                image : result.secure_url || user.image
             }
         }) ;
+
         res.status(200).json({ message : "Profile updated successfully" , user}) ;
 
     }catch(err) {
