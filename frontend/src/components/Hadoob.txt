@@ -1,0 +1,2 @@
+create database iit ; 
+insert into studentiit value(1,"aa",12.4)
