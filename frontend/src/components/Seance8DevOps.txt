@@ -1,0 +1,29 @@
+filezilla //gui configuration vps folders and files
+ls
+ssh ubuntu@ipaddressOfTheServer
+sudo su // sudo configuration
+ls
+cd ..
+ls //it will show ubunto 
+
+//installation nginx 
+apt-get install nginx
+you can verify that the nginx installed you can visit the address ip of the server and you will find welcome to nginx
+
+service nginx status
+service nginx stop
+service nginx start
+cd /var/www/html*
+vi //someting to discover 
+nano index.nginx-debian.com //ctrl + x //to save
+
+
+you can create sub domain 
+port 80 for http ; port 443 for https
+
+nano index.html //create files
+cat index.html //see the content of the files
+
+
+//to create a sub domain that redirect to another file 
+nano 
